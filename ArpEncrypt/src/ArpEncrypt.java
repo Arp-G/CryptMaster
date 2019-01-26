@@ -10,10 +10,10 @@ import java.util.Map;
 public class ArpEncrypt 
 {
 	
-	public static void main(String args[])
+	/*public static void main(String args[])
 	{
 		ArpEncrypt.Driver();
-	}
+	}*/
 	
 	
 	static void Driver()
@@ -46,7 +46,7 @@ public class ArpEncrypt
 		}		
 	}
 	
-	static void Encrypt_Driver(String src)
+	static String Encrypt_Driver(String src)
 	{
 		//String src="This is a Test of my encryption algo. Random text:2143124132%&(&(KJKH";
 		
@@ -58,20 +58,24 @@ public class ArpEncrypt
 		
 		String coded=encrypt(src,charMap);	
 		
-		System.out.println("Key file generated and placed in current directory...Encrypted Text is:");
-		System.out.println();
-		System.out.println(coded);
+		//System.out.println("Key file generated and placed in current directory...Encrypted Text is:");
+		//System.out.println();
+		//System.out.println(coded);
+		
+		return coded;
 	}
 	
-	static void Decrypt_Driver(String coded)
+	static String Decrypt_Driver(String coded)
 	{
 		Map<Integer,Integer> key=getKey(System.getProperty("user.dir")+"\\key");
 		
 		String decoded=decrypt(coded,key);	
 		
-		System.out.println("Decrypted text:");
-		System.out.println();
-		System.out.println(decoded);
+		//System.out.println("Decrypted text:");
+		//System.out.println();
+		//System.out.println(decoded);
+		
+		return decoded;
 	}
 	
 	
@@ -135,6 +139,8 @@ public class ArpEncrypt
 		String decoded="";
 		
 		Map<Integer,Integer> key=new HashMap<>();
+		
+		if(charMap==null) return "Key File not found !";
 		
 		charMap.entrySet().stream().forEach(e -> key.put(e.getValue() , e.getKey()));
 		
