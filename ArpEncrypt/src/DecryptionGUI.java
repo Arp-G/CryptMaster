@@ -1,19 +1,19 @@
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
-public class EncryptionGUI {
-	
-	static JTextArea src;
+public class DecryptionGUI {
 	
 	static JTextArea encrypted;
+	
+	static JTextArea decrypted;
 	
 	public static void main(String args[]) {
 		
@@ -22,20 +22,20 @@ public class EncryptionGUI {
 	
 	static void display() {
 		
-		JFrame f= new JFrame("Encryption"); 
+		JFrame f= new JFrame("Decryption"); 
 		    
 		javax.swing.border.Border border = BorderFactory.createLineBorder(Color.BLACK);
 		
-	    src=new JTextArea();   
+		encrypted=new JTextArea();   
 	    
-	    src.setBorder(BorderFactory.createCompoundBorder(border,
+		encrypted.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	    
-	    src.setBounds(40,75,700,250); 
+		encrypted.setBounds(40,75,700,250); 
 	    
 	    JLabel label1 = new JLabel();
 	   
-	    label1.setText("Enter text to encrypt here :");
+	    label1.setText("Enter text to decrypt here :");
 	    
 	    label1.setFont(new Font("SansSerif Bold",Font.BOLD,20));
 	    
@@ -44,42 +44,49 @@ public class EncryptionGUI {
 	    
 	    JLabel label2 = new JLabel();
 		   
-	    label2.setText("Encrypted Text here : ");
+	    label2.setText("Decrypted Text here : ");
 	    
 	    label2.setFont(new Font("SansSerif Bold",Font.BOLD,20));
 	    
 	    label2.setBounds(260, 400, 10000, 50);
 	    
-	    encrypted=new JTextArea();  
+	    decrypted=new JTextArea();  
 	    
-	    encrypted.setBorder(BorderFactory.createCompoundBorder(border,
+	    decrypted.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	    
-	    encrypted.setBounds(40,450,700,250);
+	    decrypted.setBounds(40,450,700,250);
 	    
-	    encrypted.setEditable(false);
+	    decrypted.setEditable(false);
 	    
 	    
-	    JButton b=new JButton("Encrypt !"); 
+	    JButton b=new JButton("Decrypt !"); 
 	    
 	    b.setBounds(325,350,120,30); 
 	    
 	    JLabel label3=new JLabel();
 	    
-	    label3.setFont(new Font("SansSerif Bold",Font.BOLD,13));
-	    
 	    label3.setBounds(50,700,700,30);
+	    
+	    label3.setFont(new Font("SansSerif Bold",Font.BOLD,13));
 	    
 	    b.addActionListener(new ActionListener() 
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
-	  		    	 String input=src.getText();
+	  		    	 String input=encrypted.getText();
 	  		    	 
 	  		    	 if(input.length()>0)
 	  		    	 {
-	  		    		label3.setText("Key file was generated and stored in \""+System.getProperty("user.dir")+"\\key\"");
-	  		    		encrypted.setText(Logic.Encrypt_Driver(input));
+	  		    		 String decryptedString=Logic.Decrypt_Driver(input);
+	  		    		 
+	  		    		 if(decryptedString==null)
+	  		    		 	 label3.setText("Decryption unsuccessful, Key file was not found in \""+System.getProperty("user.dir")+"\\\"");
+	  		    		 else
+	  		    		 {
+	  		    			 label3.setText("Decryption successfull using key file \""+System.getProperty("user.dir")+"\\key\"");
+	  		    			 decrypted.setText(decryptedString);
+	  		    		 }
 	  		    	 }
 		
 	  		      }
@@ -110,6 +117,7 @@ public class EncryptionGUI {
 	  	    	b.setBackground(UIManager.getColor("control"));
 	  	    }
 	    });
+	    
 	    
 	    JButton button_Back = new JButton("Back");
 	    
@@ -150,21 +158,19 @@ public class EncryptionGUI {
 	  	    }
 	  	});
 	  	    
-	    
-	  	    
 	    f.add(label1);	
 	    
 	    f.add(label2);
 	    
 	    f.add(label3);
 	    
-	    f.add(src);
+	    f.add(encrypted);
 	    
 	    f.add(b);
 	    
 	    f.add(button_Back);
 	    
-	    f.add(encrypted);
+	    f.add(decrypted);
 	    	    
 	    f.setSize(800,900);  
 	    
