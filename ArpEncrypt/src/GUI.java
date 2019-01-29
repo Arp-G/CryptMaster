@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -23,6 +22,7 @@ public class GUI {
 	
 	
 	static void display() {
+		
 		JFrame frame=new JFrame();
 		
 	    frame.setResizable(false);

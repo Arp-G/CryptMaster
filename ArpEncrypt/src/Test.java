@@ -18,13 +18,12 @@ public class Test {
     
     public static void main(String args[]) {
         
-        String e=encryptData("Arpan Ghoshal is a good boy");
+        String e=encryptData("Arpan Ghoshal is a good boy",125,16,"AES");
         System.out.println(e);
-        
-        System.out.println(decryptData(e,secretKey));
+        System.out.println(decryptData(e,secretKey,"AES"));
     }
     
-   static public String encryptData(String plaintext) {
+   static public String encryptData(String plaintext,int key_size,int iv_length,String algo) {
    
    try {
        
@@ -52,7 +51,7 @@ public class Test {
        
    }
    
-   static public String decryptData(String encrypted,SecretKey secretkey) {
+   static public String decryptData(String encrypted,SecretKey secretkey,String algo) {
    
    try {
       
