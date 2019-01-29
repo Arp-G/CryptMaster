@@ -1,0 +1,78 @@
+
+//Tutorial at http://tutorials.jenkov.com/java-cryptography/index.html
+
+
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
+import java.util.Base64; 
+import java.security.SecureRandom;
+
+public class Test {
+	static int key_size=128;   // 128 for AES,Blowfish | 56 for DES
+    static int iv_length=16;   // 8 for blowfish,DES | 16 for AES
+	static String algo="AES";  // Blowfish | AES | DES
+    static SecretKey secretKey;
+    static IvParameterSpec iv;  // Block cipher modes need an initialization vector (IV), which is a block of initialization data, usually the same size as the block size of the underlying cipher.
+    							// typically have a fixed IV, which is just an arbitrary constant which is included in the hash function specification and is used as the initial hash value before 
+    							// any data is fed in
+    
+    public static void main(String args[]) {
+        
+        String e=encryptData("Arpan Ghoshal is a good boy");
+        System.out.println(e);
+        
+        System.out.println(decryptData(e,secretKey));
+    }
+    
+   static public String encryptData(String plaintext) {
+   
+   try {
+       
+       
+       SecureRandom randomSecureRandom = new SecureRandom();         // Getting "SecureRandom" instance to create a secure random init vector
+       byte[] initVector = new byte[iv_length];                      // creating 16 byte array 
+       randomSecureRandom.nextBytes(initVector);                     // Getting a random init vector
+       iv = new IvParameterSpec(initVector);
+       KeyGenerator keyGenerator = KeyGenerator.getInstance(algo);
+       keyGenerator.init(key_size);
+       secretKey = keyGenerator.generateKey();
+       byte[] plaintTextByteArray = plaintext.getBytes("UTF8");
+       Cipher cipher = Cipher.getInstance(algo+"/CBC/PKCS5Padding");
+       cipher.init(Cipher.ENCRYPT_MODE, secretKey ,iv);
+       byte[] cipherText = cipher.doFinal(plaintTextByteArray);
+       
+       Base64.Encoder encoder = Base64.getEncoder();  
+       
+       return  new String(encoder.encode(cipherText));
+   }
+       catch(Exception ex){
+           ex.printStackTrace();
+       }
+       return null;
+       
+   }
+   
+   static public String decryptData(String encrypted,SecretKey secretkey) {
+   
+   try {
+      
+       byte[] encryptedTextByteArray = encrypted.getBytes("UTF8");
+
+        
+       Cipher cipher = Cipher.getInstance(algo+"/CBC/PKCS5Padding");
+       cipher.init(Cipher.DECRYPT_MODE, secretkey ,iv);
+       
+       Base64.Decoder decoder = Base64.getDecoder();
+       byte[] cipherText = cipher.doFinal(decoder.decode(encryptedTextByteArray));
+       return new String(cipherText);
+
+       }
+        catch(Exception ex){
+           ex.printStackTrace();
+       }
+       
+       return null;
+   }
+   
+  
+}
