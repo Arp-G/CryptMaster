@@ -10,11 +10,6 @@ import javax.swing.border.EmptyBorder;
 
 public class Encryption_Menu {
 	
-public static void main(String args[])
-{
-	display();
-}
-
 
 static void display() {
 		
@@ -216,12 +211,11 @@ static void display() {
   	});
     
     
-    JLabel heading=new JLabel(new ImageIcon("images/Heading.gif"),JLabel.CENTER);
+    JLabel heading=new JLabel(new ImageIcon("images/Heading.gif"),JLabel.CENTER); //Heading GIF image
 
-    heading.setBounds(0,0,500,50);
-    
-    
-    JLabel buttons=new JLabel(new ImageIcon("images/Background.gif"),JLabel.CENTER);
+    heading.setBounds(0,0,500,50); // Heading image position (x,y,width,height)
+      
+    JLabel buttons=new JLabel(new ImageIcon("images/Background.gif"),JLabel.CENTER); //label to hold background image
 
     buttons.setBorder(new EmptyBorder(new Insets(150, 0, 0, 0))); //Set location of label
     

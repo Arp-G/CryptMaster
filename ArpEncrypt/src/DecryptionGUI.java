@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -213,7 +212,7 @@ public class DecryptionGUI {
 	}
 	
 	
-		static javax.crypto.SecretKey getKey(String path) {
+		static javax.crypto.SecretKey getKey(String path) { //Read key from file at 'path'
 		 javax.crypto.SecretKey key = null;
 
 		  try (ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(path))) {
