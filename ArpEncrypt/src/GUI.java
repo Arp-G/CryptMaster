@@ -46,7 +46,7 @@ public class GUI {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
 	  		    	  frame.dispose();
-	  		    	  EncryptionGUI.display();
+	  		    	  Encryption_Menu.display();
 	  		      }
 	  		      
 	    });
@@ -56,7 +56,7 @@ public class GUI {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
 	  		    	  frame.dispose();
-	  		    	  DecryptionGUI.display();
+	  		    	  Decryption_Menu.display();
 		
 	  		      }
 	  		      

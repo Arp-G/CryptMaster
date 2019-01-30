@@ -3,7 +3,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -15,12 +17,8 @@ public class EncryptionGUI {
 	
 	static JTextArea encrypted;
 	
-	public static void main(String args[]) {
-		
-		display();
-	}
 	
-	static void display() {
+	static void display(String algo) {
 		
 		JFrame f= new JFrame("Encryption"); 
 		    
@@ -78,8 +76,31 @@ public class EncryptionGUI {
 	  		    	 
 	  		    	 if(input.length()>0)
 	  		    	 {
+	  		    		DataAndKey ob=null;
+	  		    		 
+	  		    		 if(algo.compareTo("ArpEncrypt")==0)
+	  		    		 {
+	  		    			String chiperText=ArpEncrypt_Logic.Encrypt_Driver(input);
+	  		    			label3.setText("Key file was generated and stored in \""+System.getProperty("user.dir")+"\\key\"");
+		  		    		encrypted.setText(chiperText);
+		  		    		return;
+	  		    		 }
+	  		    		 else if(algo.compareTo("AES")==0)
+	  		    		 {
+	  		    			ob=CryptAlgoLogic.Encryptdriver(input, "AES");
+	  		    		 }
+	  		    		 else if(algo.compareTo("DES")==0)
+	  		    		 {
+	  		    			ob=CryptAlgoLogic.Encryptdriver(input, "DES");
+	  		    		 }
+	  		    		 else if(algo.compareTo("BlowFish")==0)
+	  		    		 {
+	  		    			ob=CryptAlgoLogic.Encryptdriver(input, "BlowFish");
+	  		    		 }
+	  		    		
+	  		    		storeKey(ob.getKey());
 	  		    		label3.setText("Key file was generated and stored in \""+System.getProperty("user.dir")+"\\key\"");
-	  		    		encrypted.setText(Logic.Encrypt_Driver(input));
+	  		    		encrypted.setText(ob.getData());
 	  		    	 }
 		
 	  		      }
@@ -172,5 +193,16 @@ public class EncryptionGUI {
 	    
 	    f.setVisible(true);  
 	}
+	
+	static void storeKey(javax.crypto.SecretKey key) {
+		  try (ObjectOutputStream objectOut = new ObjectOutputStream(new FileOutputStream("key"))) {
+		   objectOut.writeObject(key);
+		  } catch (IOException e) {
+		   e.getStackTrace();
+		  }
+
+		 }
+
+		
 
 }

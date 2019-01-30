@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -15,12 +18,7 @@ public class DecryptionGUI {
 	
 	static JTextArea decrypted;
 	
-	public static void main(String args[]) {
-		
-		display();
-	}
-	
-	static void display() {
+	static void display(String algo) {
 		
 		JFrame f= new JFrame("Decryption"); 
 		    
@@ -74,20 +72,45 @@ public class DecryptionGUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
-	  		    	 String input=encrypted.getText();
 	  		    	 
-	  		    	 if(input.length()>0)
-	  		    	 {
-	  		    		 String decryptedString=Logic.Decrypt_Driver(input);
-	  		    		 
-	  		    		 if(decryptedString==null)
-	  		    		 	 label3.setText("Decryption unsuccessful, Key file was not found in \""+System.getProperty("user.dir")+"\\\"");
-	  		    		 else
-	  		    		 {
+	  		    	String output=encrypted.getText();  
+	  		    	javax.crypto.SecretKey key= getKey(System.getProperty("user.dir") + "\\key"); 
+	  		    	
+	  		    	if(key==null)
+	  		    	{
+	  		    		label3.setText("Decryption unsuccessful, Key file was not found in \""+System.getProperty("user.dir")+"\\\"");
+	  		    		return;
+	  		    	}
+	  		    	  
+	  		    	DataAndKey ob=new DataAndKey(output,key);
+	  		    	String decryptedString=null;
+	  		    	
+	  		    	 if(algo.compareTo("ArpEncrypt")==0)
+ 		    		 {
+ 		    			decryptedString=ArpEncrypt_Logic.Decrypt_Driver(output);
+ 		    			
+ 		    		 }
+ 		    		 else if(algo.compareTo("AES")==0)
+ 		    		 {
+ 		    			decryptedString=CryptAlgoLogic.Decryptdriver(ob, "AES");
+ 		    		 }
+ 		    		 else if(algo.compareTo("DES")==0)
+ 		    		 {
+ 		    			decryptedString=CryptAlgoLogic.Decryptdriver(ob, "DES");
+ 		    		 }
+ 		    		 else if(algo.compareTo("BlowFish")==0)
+ 		    		 {
+ 		    			decryptedString=CryptAlgoLogic.Decryptdriver(ob, "BlowFish");
+ 		    		 }
+	  		    	 
+	  		    	 if(decryptedString==null)
+	  		    		 label3.setText("Decryption unsuccessful");
+	  		    	 else
+	  		         {
 	  		    			 label3.setText("Decryption successfull using key file \""+System.getProperty("user.dir")+"\\key\"");
 	  		    			 decrypted.setText(decryptedString);
-	  		    		 }
 	  		    	 }
+	  		    	 
 		
 	  		      }
 	  		      
@@ -178,5 +201,18 @@ public class DecryptionGUI {
 	    
 	    f.setVisible(true);  
 	}
+	
+	
+		static javax.crypto.SecretKey getKey(String path) {
+		 javax.crypto.SecretKey key = null;
+
+		  try (ObjectInputStream objectIn = new ObjectInputStream(new FileInputStream(path))) {
+		   key = (javax.crypto.SecretKey ) objectIn.readObject();
+		  } catch (IOException | ClassNotFoundException e) {
+		   e.getStackTrace();
+		  }
+
+		  return key;
+		 }
 
 }
