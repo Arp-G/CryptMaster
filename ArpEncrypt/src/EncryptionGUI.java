@@ -26,6 +26,8 @@ public class EncryptionGUI {
 		
 	    src=new JTextArea();   
 	    
+	    src.setLineWrap(true);
+	    
 	    src.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	    
@@ -48,7 +50,9 @@ public class EncryptionGUI {
 	    
 	    label2.setBounds(260, 400, 10000, 50);
 	    
-	    encrypted=new JTextArea();  
+	    encrypted=new JTextArea(); 
+	    
+	    encrypted.setLineWrap(true);
 	    
 	    encrypted.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));

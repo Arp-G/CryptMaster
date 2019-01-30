@@ -24,7 +24,9 @@ public class DecryptionGUI {
 		    
 		javax.swing.border.Border border = BorderFactory.createLineBorder(Color.BLACK);
 		
-		encrypted=new JTextArea();   
+		encrypted=new JTextArea();  
+		
+		encrypted.setLineWrap(true);
 	    
 		encrypted.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
@@ -50,6 +52,8 @@ public class DecryptionGUI {
 	    
 	    decrypted=new JTextArea();  
 	    
+	    decrypted.setLineWrap(true);
+	    
 	    decrypted.setBorder(BorderFactory.createCompoundBorder(border,
 	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	    
@@ -74,12 +78,18 @@ public class DecryptionGUI {
 	  		      {
 	  		    	 
 	  		    	String output=encrypted.getText();  
-	  		    	javax.crypto.SecretKey key= getKey(System.getProperty("user.dir") + "\\key"); 
+	  		    	javax.crypto.SecretKey key=null;
 	  		    	
-	  		    	if(key==null)
+	  		    	if(algo.compareTo("ArpEncrypt")!=0)
 	  		    	{
-	  		    		label3.setText("Decryption unsuccessful, Key file was not found in \""+System.getProperty("user.dir")+"\\\"");
-	  		    		return;
+	  		    		key= getKey(System.getProperty("user.dir") + "\\key");   		    	
+	  		    		
+	  		    		if(key==null)
+	  		    		{
+	  		    			label3.setText("Decryption unsuccessful, Key file was not found in \""+System.getProperty("user.dir")+"\\\"");
+	  		    			return;
+	  		    		}
+	  		    	
 	  		    	}
 	  		    	  
 	  		    	DataAndKey ob=new DataAndKey(output,key);

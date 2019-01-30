@@ -218,7 +218,7 @@ static void display() {
     
     JLabel heading=new JLabel(new ImageIcon("images/Heading.gif"),JLabel.CENTER);
 
-    heading.setBounds(170,0,150,50);
+    heading.setBounds(0,0,500,50);
     
     
     JLabel buttons=new JLabel(new ImageIcon("images/Background.gif"),JLabel.CENTER);
