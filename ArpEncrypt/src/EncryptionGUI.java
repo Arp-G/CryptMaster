@@ -76,6 +76,18 @@ public class EncryptionGUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    } 
+	  		    	  
 	  		    	 String input=src.getText();
 	  		    	 
 	  		    	 if(input.length()>0) //If user entered some text
@@ -144,6 +156,18 @@ public class EncryptionGUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
+	  		    	  
 	  		    	  f.dispose();
 	  		    	  GUI.display();
 	  		      }

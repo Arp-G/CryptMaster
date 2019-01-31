@@ -75,6 +75,18 @@ public class DecryptionGUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	  
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
 	  		    	 
 	  		    	String output=encrypted.getText();  
 	  		    	javax.crypto.SecretKey key=null;
@@ -159,6 +171,18 @@ public class DecryptionGUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
+	  		    	
 	  		    	  f.dispose();
 	  		    	  GUI.display();
 	  		      }

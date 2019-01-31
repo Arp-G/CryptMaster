@@ -39,6 +39,18 @@ static void display() {
     {
   		      public void actionPerformed(ActionEvent arg0) 
   		      {
+  		    	try {
+    			      File file = new File("sounds/Button Click.wav");
+    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+    			      Clip clip = AudioSystem.getClip();
+    			      clip.open(stream);
+    			      clip.start();
+    			      stream.close();
+    			 
+    			    } catch (Exception ex) {
+    			      System.out.println(ex.getMessage());
+    			    }
+    	    	
   		    	  frame.dispose();
  		    	  EncryptionGUI.display("ArpEncrypt");
   		      }
@@ -49,7 +61,19 @@ static void display() {
     {
   		      public void actionPerformed(ActionEvent arg0) 
   		      {
-  		    	  frame.dispose();
+  		    	try {
+  			      File file = new File("sounds/Button Click.wav");
+  			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+  			      Clip clip = AudioSystem.getClip();
+  			      clip.open(stream);
+  			      clip.start();
+  			      stream.close();
+  			 
+  			    } catch (Exception ex) {
+  			      System.out.println(ex.getMessage());
+  			    }
+  		    	
+  		    	frame.dispose();
   		    	EncryptionGUI.display("AES");
   		      }
   		      
@@ -59,6 +83,18 @@ static void display() {
     {
   		      public void actionPerformed(ActionEvent arg0) 
   		      {
+  		    	try {
+  			      File file = new File("sounds/Button Click.wav");
+  			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+  			      Clip clip = AudioSystem.getClip();
+  			      clip.open(stream);
+  			      clip.start();
+  			      stream.close();
+  			 
+  			    } catch (Exception ex) {
+  			      System.out.println(ex.getMessage());
+  			    }
+  		    	  
   		    	  frame.dispose();
   		    	  EncryptionGUI.display("DES");
   		      }
@@ -69,6 +105,18 @@ static void display() {
     {
   		      public void actionPerformed(ActionEvent arg0) 
   		      {
+  		    	try {
+  			      File file = new File("sounds/Button Click.wav");
+  			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+  			      Clip clip = AudioSystem.getClip();
+  			      clip.open(stream);
+  			      clip.start();
+  			      stream.close();
+  			 
+  			    } catch (Exception ex) {
+  			      System.out.println(ex.getMessage());
+  			    }
+  		    	  
   		    	  frame.dispose();
   		    	  EncryptionGUI.display("BlowFish");
   		      }
@@ -79,6 +127,18 @@ static void display() {
     {
 	      public void actionPerformed(ActionEvent arg0) 
 	      {
+	    	  try {
+			      File file = new File("sounds/Button Click.wav");
+			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+			      Clip clip = AudioSystem.getClip();
+			      clip.open(stream);
+			      clip.start();
+			      stream.close();
+			 
+			    } catch (Exception ex) {
+			      System.out.println(ex.getMessage());
+			    }
+	    	  
 	    	  frame.dispose();
 	    	  GUI.display();
 	      }

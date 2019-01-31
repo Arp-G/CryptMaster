@@ -45,6 +45,18 @@ public class GUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
+	  		    	  
 	  		    	  frame.dispose();
 	  		    	  Encryption_Menu.display();
 	  		      }
@@ -55,6 +67,18 @@ public class GUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
+	  		    	  
 	  		    	  frame.dispose();
 	  		    	  Decryption_Menu.display();
 		
@@ -66,6 +90,18 @@ public class GUI {
 	    {
 	  		      public void actionPerformed(ActionEvent arg0) 
 	  		      {
+	  		    	try {
+	    			      File file = new File("sounds/Button Click.wav");
+	    			      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+	    			      Clip clip = AudioSystem.getClip();
+	    			      clip.open(stream);
+	    			      clip.start();
+	    			      stream.close();
+	    			 
+	    			    } catch (Exception ex) {
+	    			      System.out.println(ex.getMessage());
+	    			    }
+	  		    	  
 	  		    	  System.exit(0);
 	  		      }
 	  		      
