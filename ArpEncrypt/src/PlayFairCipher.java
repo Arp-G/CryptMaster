@@ -102,20 +102,20 @@ public class PlayFairCipher {
 
 
  
- static String encrypt(String src,char matrix[][]) {
+ static String encrypt(String plainText,char matrix[][]) {
 	 
 	 int row1,col1,row2,col2;
 	 char ch1,ch2;
 	 String result="";
 	 row1=col1=row2=col2=0;
 	 
- 	if(src.length()%2!=0)
-		src+="X";
+ 	if(plainText.length()%2!=0)
+ 		plainText+="X";
 	
-	for(int i=0;i<src.length()-1;i=i+2) {
+	for(int i=0;i<plainText.length()-1;i=i+2) {
 		
-		ch1=src.charAt(i);
-		ch2=src.charAt(i+1);
+		ch1=plainText.charAt(i);
+		ch2=plainText.charAt(i+1);
 		
 		for(int j=0;j<5;j++) {
 			for(int k=0;k<5;k++) {
@@ -152,20 +152,20 @@ public class PlayFairCipher {
  }
 
  
-static String decrypt(String src,char matrix[][]) {
+static String decrypt(String cipherText,char matrix[][]) {
 	 
 	 int row1,col1,row2,col2;
 	 char ch1,ch2;
 	 String result="";
 	 row1=col1=row2=col2=0;
 	 
- 	if(src.length()%2!=0)
-		src+="X";
+ 	if(cipherText.length()%2!=0)
+ 		cipherText+="X";
 	
-	for(int i=0;i<src.length()-1;i=i+2) {
+	for(int i=0;i<cipherText.length()-1;i=i+2) {
 		
-		ch1=src.charAt(i);
-		ch2=src.charAt(i+1);
+		ch1=cipherText.charAt(i);
+		ch2=cipherText.charAt(i+1);
 		
 		for(int j=0;j<5;j++) {
 			for(int k=0;k<5;k++) {
