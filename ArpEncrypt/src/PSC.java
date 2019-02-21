@@ -3,7 +3,7 @@
 
 public class PSC {
     
-   /* public static void main(String args[]){
+    public static void main(String args[]){
         
         String tmp=Encrypt_Driver("Arpan is a Good boy !","Testing1@");
         
@@ -12,7 +12,7 @@ public class PSC {
         System.out.println(Decrypt_Driver(tmp,"Testing1@"));
         
         
-    }*/
+    }
 
  static String Encrypt_Driver(String plainText,String key) {
 		 
@@ -68,7 +68,6 @@ public class PSC {
 	    ascii=32+i;
 		 
 		 for (int j = 0; j < 94; j++) {
-			 
 			 matrix[j][i]=(char)ascii;
 			 
 			 ascii++;

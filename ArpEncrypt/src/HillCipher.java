@@ -3,36 +3,93 @@
  * The decrypted text will contain a trailing 'X' if the original plain text had odd number of characters
  * Can only work for a single word containing letters (A to Z)
  * Fails to maintain letter case, decrypted text is always in upper case
- * The algorithm fails when the plain text has similar consecutive characters Example: Hello, hammer ,etc
+ * The key given must have exactly 4 letters in caps
+ * 
+ * References:
+ * 
+ * https://crypto.interactive-maths.com/hill-cipher.html
+ * http://practicalcryptography.com/ciphers/hill-cipher/
+ * https://www.geeksforgeeks.org/hill-cipher/
+ * https://en.wikipedia.org/wiki/Hill_cipher
  * 
 */
-
-
-
-
 
 public class HillCipher {
     
     public static void main(String args[]){
     	
-    	String plainText="Act";
+    	String plainText="MAGIC";
+    	
+    	String key="LIHH";
 
     	plainText=plainText.toUpperCase();
         
-        String tmp=Encrypt_Driver(plainText,"GYBNQKURP");
+        String tmp=Encrypt_Driver(plainText,key);
         
-        System.out.println("Plain text: "+plainText);
+        if(tmp==null) {
+        	System.out.println("Wrong key,try a different key, cannot Encrypt !");
+        	return;
+        }
         
-        System.out.println("cipher text: "+tmp);
+        System.out.println("Plain text:     "+plainText);
         
-        System.out.println("decrypted text: "+Decrypt_Driver(tmp,"GYBNQKURP"));  
+        System.out.println("Cipher text:    "+tmp);
+        
+        tmp=Decrypt_Driver(tmp,key);
+        
+        if(tmp==null) {
+        	System.out.println("Wrong key,try a different key, cannot Decrypt !");
+        	return;
+        }
+        
+        System.out.println("Decrypted text: "+tmp);  
         
         
     }
+    
+    static String Encrypt_Driver(String plainText,String key) {
+    	
+    	if(calcInverse(createKeyMatrix(key))==null)
+    		return null; //Wrong key
+    	
+    	if(plainText.length()%2!=0)
+    		plainText+="X";
+    	
+    	String cipherText="";
+    	
+    	for(int i=0;i<plainText.length()-1;i=i+2) {
+    		
+    		String tmp=Part_Encrypt_Driver( plainText.substring(i,i+2) , key);
+    		cipherText+= tmp;
+    	}
+    	
+    	
+    	return cipherText;
+    			
+    }
+    
+    static String Decrypt_Driver(String cipherText,String key) {
+    	
+    	if(calcInverse(createKeyMatrix(key))==null)
+    		return null; //Wrong key
+    	
+    	String plainText="";
+    	
+    	for(int i=0;i<cipherText.length()-1;i=i+2) {
+    		
+    		String tmp=Part_Decrypt_Driver( cipherText.substring(i,i+2) , key);
+    		plainText+= tmp;
+    	}
+    	
+    	return plainText;
+    			
+    }
+    
+    
 
- static String Encrypt_Driver(String plainText,String key) {
+ static String Part_Encrypt_Driver(String plainText,String key) {
 	 
-	 int keyMatrix[][]=createKeyMatrix(plainText.length(),key);
+	 int keyMatrix[][]=createKeyMatrix(key);
 	 
 	 int msgMatrix[]=createMsgMatrix(plainText);
 	 
@@ -41,9 +98,9 @@ public class HillCipher {
 	 return cipherText;
  }
 
- static String Decrypt_Driver(String cipherText,String key) {
+ static String Part_Decrypt_Driver(String cipherText,String key) {	 
 	 
-	 int keyMatrix[][]=createKeyMatrix(cipherText.length(),key);
+	 int keyMatrix[][]=createKeyMatrix(key);
 	 
 	 int cipherMatrix[]=createMsgMatrix(cipherText);
 	 
@@ -60,15 +117,35 @@ public class HillCipher {
  static char getChar(int x) {	 
 	 return (char)(x+65);
  }
+ 
+ static Integer calcInverse(int keyMatrix[][]) {
+	 
+	 int det=keyMatrix[0][0]*keyMatrix[1][1]-keyMatrix[0][1]*keyMatrix[1][0];
 
-
-static int[][] createKeyMatrix(int len,String key){
+	 det=(det%26+26)%26;  // If det is negative +26%26 is needed is get a positive number between 1 and 25
+						  // Now we need to find (det)^-1  , use the formula (det)(det^-1) = 1 mod 26 , we need to find (det^-1) we doo this using... (det*i) % 26 == 1 here i = (det^-1)
+	 if(det==0)
+		 return null;
 	
-	int matrix[][]=new int[len][len];
+	 int di=0;
+     for(int i=0;i<26;i++)
+    	 if((det*i)%26 == 1) 
+    		 di = i; 
+    
+     if(di==0) 
+    	return null; // Wrong key try another key
+	
+	 return di;
+ }
+
+
+static int[][] createKeyMatrix(String key){
+	
+	int matrix[][]=new int[2][2];
 	int k=0;
 	
-	for(int i=0;i<len;i++)
-		for(int j=0;j<len;j++)
+	for(int i=0;i<2;i++)
+		for(int j=0;j<2;j++)
 			matrix[i][j]=getCharCode(key.charAt(k++));
 	
 	return matrix;
@@ -78,9 +155,9 @@ static int[][] createKeyMatrix(int len,String key){
  
 static int[] createMsgMatrix(String plainText) {
 	
-	int matrix[]=new int[plainText.length()];
+	int matrix[]=new int[2];
 	
-	for(int i=0;i<plainText.length();i++) 
+	for(int i=0;i<2;i++) 
 		matrix[i]=getCharCode(plainText.charAt(i));
 	
 	return matrix;
@@ -94,12 +171,12 @@ static int[] createMsgMatrix(String plainText) {
 	 
 	 String cipherText="";
 	 
-	 for(int i=0;i<msgMatrix.length;i++) {
+	 for(int i=0;i<2;i++) {
 		 
 		 sum=0;
 		 
-		 for(int j=0;j<msgMatrix.length;j++) 
-			 sum+=keyMatrix[i][j]*msgMatrix[j];
+		 for(int j=0;j<2;j++) 
+			 sum+=msgMatrix[j]*keyMatrix[i][j];
 		 		 
 		 cipherText+= getChar(sum%26);		 
 	 }
@@ -108,42 +185,30 @@ static int[] createMsgMatrix(String plainText) {
 
  }
  
- static void displayMatrix(double m[][]) {
-	 
-	 for(int i=0;i<m[0].length;i++) {
-		 for(int j=0;j<m[0].length;j++)
-			 System.out.print(m[i][j]+" ");
-		 System.out.println();
-	 }
- }
-
  
-static String decrypt(int cipherMatrix[],int keyMatrix[][]) {
+static String decrypt(int cipherMatrix[],int keyMatrix[][]) {	
 	
-	double tmp[][] = new double[keyMatrix[0].length][keyMatrix[0].length];
-	
-	for(int i=0; i<keyMatrix[0].length; i++) 
-		for(int j=0; j<keyMatrix[0].length; j++)
-			tmp[i][j]=keyMatrix[i][j];
-	
-	/*displayMatrix(tmp);
-	System.out.println();
-	System.out.println();*/
-	
-	tmp=invert(tmp);
-	
-	/*displayMatrix(tmp);*/
-	
-	
-	double x[][]= {{7,8},{11,11}};
-	displayMatrix(x);
-	x=invert(x);
-	displayMatrix(x);
-	
-	for(int i=0; i<tmp[0].length; i++) 
-		for(int j=0; j<tmp[0].length; j++)
-			tmp[i][j]=tmp[i][j]%26;
-	
+	int di=calcInverse(keyMatrix);
+
+    //Find the Adjugate Matrix
+    
+    int tmp=keyMatrix[0][0];
+    
+    keyMatrix[0][0]=(keyMatrix[1][1]+26)%26;
+    
+    keyMatrix[1][1]=(tmp+26)%26;
+    
+    keyMatrix[0][1]=(-keyMatrix[0][1]+26)%26;
+    
+    keyMatrix[1][0]=(-keyMatrix[1][0]+26)%26;
+    
+    //Multiply the Multiplicative Inverse of the Determinant by the Adjugate Matrix
+    //Then we take each of these answers modulo 26    
+    
+    for(int i=0;i<2;i++)
+    	for(int j=0;j<2;j++)
+    		keyMatrix[i][j] = (keyMatrix[i][j]*di)%26;
+    	
 	 int sum=0;
 	 
 	 String plainText="";
@@ -153,110 +218,12 @@ static String decrypt(int cipherMatrix[],int keyMatrix[][]) {
 		 sum=0;
 		 
 		 for(int j=0;j<cipherMatrix.length;j++) 
-			 sum+=tmp[i][j]*cipherMatrix[j];
+			 sum+=keyMatrix[i][j]*cipherMatrix[j];
 		 		 
 		 plainText+= getChar(sum%26);		 
 	 }
 	 
-	 return plainText;
-	
-	
+	 return plainText;	
  }
 
-
-public static double[][] invert(double a[][]) 
-{
-    int n = a.length;
-    double x[][] = new double[n][n];
-    double b[][] = new double[n][n];
-    int index[] = new int[n];
-    for (int i=0; i<n; ++i) 
-        b[i][i] = 1;
-
-// Transform the matrix into an upper triangle
-    gaussian(a, index);
-
-// Update the matrix b[i][j] with the ratios stored
-    for (int i=0; i<n-1; ++i)
-        for (int j=i+1; j<n; ++j)
-            for (int k=0; k<n; ++k)
-                b[index[j]][k]
-                	    -= a[index[j]][i]*b[index[i]][k];
-
-// Perform backward substitutions
-    for (int i=0; i<n; ++i) 
-    {
-        x[n-1][i] = b[index[n-1]][i]/a[index[n-1]][n-1];
-        for (int j=n-2; j>=0; --j) 
-        {
-            x[j][i] = b[index[j]][i];
-            for (int k=j+1; k<n; ++k) 
-            {
-                x[j][i] -= a[index[j]][k]*x[k][i];
-            }
-            x[j][i] /= a[index[j]][j];
-        }
-    }
-    return x;
-}
-
-//Method to carry out the partial-pivoting Gaussian
-//elimination.  Here index[] stores pivoting order.
-
-public static void gaussian(double a[][], int index[]) 
-{
-    int n = index.length;
-    double c[] = new double[n];
-
-// Initialize the index
-    for (int i=0; i<n; ++i) 
-        index[i] = i;
-
-// Find the rescaling factors, one from each row
-    for (int i=0; i<n; ++i) 
-    {
-        double c1 = 0;
-        for (int j=0; j<n; ++j) 
-        {
-            double c0 = Math.abs(a[i][j]);
-            if (c0 > c1) c1 = c0;
-        }
-        c[i] = c1;
-    }
-
-// Search the pivoting element from each column
-    int k = 0;
-    for (int j=0; j<n-1; ++j) 
-    {
-        double pi1 = 0;
-        for (int i=j; i<n; ++i) 
-        {
-            double pi0 = Math.abs(a[index[i]][j]);
-            pi0 /= c[index[i]];
-            if (pi0 > pi1) 
-            {
-                pi1 = pi0;
-                k = i;
-            }
-        }
-
-// Interchange rows according to the pivoting order
-        int itmp = index[j];
-        index[j] = index[k];
-        index[k] = itmp;
-        for (int i=j+1; i<n; ++i) 	
-        {
-            double pj = a[index[i]][j]/a[index[j]][j];
-
-// Record pivoting ratios below the diagonal
-            a[index[i]][j] = pj;
-
-// Modify other elements accordingly
-            for (int l=j+1; l<n; ++l)
-                a[index[i]][l] -= pj*a[index[j]][l];
-        }
-    }
-}
-
- 
 }
