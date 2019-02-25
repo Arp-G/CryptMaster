@@ -42,9 +42,9 @@ public class PlayFairCipher {
 	 
 	 char matrix[][]=createPopulationMatrix(key);
 	 
-	 String cipher=decrypt(cipherText,matrix);
+	 String plainText=decrypt(cipherText,matrix);
 	 
-	 return cipher;
+	 return plainText;
  																	
  }
 
