@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="chrset" content="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="author" content="Arpan Ghoshal">
+  <meta name="description" content="CryptMaster - A cryptography application">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="Driver.js"></script>
+
+  <script src="https://unpkg.com/egoroof-blowfish@2.1.0" crossorigin="anonymous" integrity="sha384-0H9x/+kblTVPh935mDnPd8xKFQKyQyAuJyBSmQWQ66Foe6lav6k0BZsiY5JsQ3Dm"></script>
+  <script src="AES.js"></script>
+
+  <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+  <script src="blowfish.js"></script>
+
+  <script src="MASC.js"></script>
+
+  <script src="PAC.js"></script>
+
+  <script src="playFair.js"></script>
+
+  <script src="hillCipher.js"></script>
+
+  <script src="railfence.js"></script>
+
+  <script src="ColumnTransposition.js"></script>
+
+  <script src="vernamCipher.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Josefin+San|Oleo+Script" rel="stylesheet">
+
+  <title>Crypt-Master</title>
+  <style>
+
+  *.{
+        padding:0px;
+        margin:0px;
+    }
+    h1{
+      display:flex;
+      justify-content: center;
+    }
+
+
+    h3{
+      font-family: 'Oleo Script', cursive;
+      text-align: center;
+    }
+
+    textarea{
+       margin:auto;
+       width:80% !important;
+       height: 40vh !important;
+    }
+
+    #control>button{
+      display:inline;
+      position:relative;
+      left:10%;
+      margin-top:20px;
+      margin-left: 50px;
+      margin-bottom:20px;
+    }
+    .draw{
+       font-family: 'Josefin Sans', sans-serif;
+       font-size: 2.5vw;
+       animation: borderAnimation 2s linear infinite alternate;
+       padding:15px;
+    }
+
+    .row{
+
+      height:100%;
+    }
+
+    .container{
+      background-image:url("qbkls.png");
+      animation: backgroundAnimation 20s linear infinite reverse;
+      border:4px solid blue;
+    }
+
+    .midText{
+      text-align: center;
+      font-family: 'Oleo Script', cursive;
+      font-size:20px;
+      padding:10px;
+      display:block;
+    }
+
+    #constraint{
+      font-family: 'Arvo', serif;
+    }
+
+    body{
+      background-image:url("doodles.png");
+      animation: backgroundAnimation 20s linear infinite;
+    }
+
+    @keyframes borderAnimation{
+      from { box-shadow: inset 0 0 0 ; }
+      to { box-shadow: inset 0 0 0 10px red; }
+    }
+
+    @keyframes backgroundAnimation{
+      from { background-position: 0 0; }
+      to { background-position: -400px 0; }
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><span class="draw">Crypt-Master</span></h1>
+  </header>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-xs-4">
+          <div class="row form-group">
+            <h3>Encryption</h3>
+            <textarea  class="form-control" placeholder="Enter text to encrypt here..." style="color:blue" id="toEncrypt"></textarea>
+          </div>
+          <div class="row form-group">   
+          <h3>Cipher Text</h3>   
+          <textarea class="form-control" id="encryptedText" style="color:red" disabled></textarea>
+          </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="row">
+        <div id="control" class="form-group">
+         <span class="midText"> Key: </span><input type="text" id="key" class="form-control">
+          <button id="encryptButton" onclick="encrypt_Driver()" class="btn btn-danger">Encrypt !</button>
+          <button id="decryptButton" onclick="decrypt_Driver()" class="btn btn-primary">Decrypt !</button>
+       
+         <span class="midText">Choose Encryption/Decryption Strategy:</span>
+        <select class="form-control" id="Strategy" onchange="load_Contraint()">
+          <option selected disabled>Select Encryption/Decryption Strategy</option>
+          <option value="AES">AES</option>
+          <option value="Blowfish">BlowFish</option>
+          <option value="MASC">Monoalphabetic Substitution Cipher</option>
+          <option value="PSC">Polyalphabetic Substitution Cipher</option>
+          <option value="PlayFair">PlayFair Cipher</option>
+          <option value="HillCipher">Hill Cipher</option>
+          <option value="RailFence">Rail Fence</option>
+          <option value="sft">Simple Column Transposition</option>
+          <option value="vernam">Vernam Cipher</option>
+        </select>
+
+        <div id="constraint">
+        </div>
+        </div>
+      </div>
+      </div> 
+      <div class="col-xs-4">
+        <div class="row form-group">
+          <h3>Decryption</h3>
+          <textarea  class="form-control" placeholder="Enter text to decrypt here..." style="color:blue" id="toDecrypt"></textarea>
+        </div>
+        <div class="row form-group">
+          <h3>Plain Text</h3>   
+          <textarea  class="form-control" id="decryptedText" style="color:green" disabled></textarea>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+
+</body>
+

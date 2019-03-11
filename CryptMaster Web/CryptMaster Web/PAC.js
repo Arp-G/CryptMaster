@@ -1,6 +1,6 @@
-class Msc{
+class Psc{
 
-  encrypt_Driver(plainText,key) {
+  Encrypt_Driver(plainText,key) {
 
   let matrix = this.createSubstitutionMatrix();
 
@@ -11,7 +11,7 @@ class Msc{
   return cipher;
 }
 
- decrypt_Driver(cipherText,key) {
+ Decrypt_Driver(cipherText,key) {
 
   let matrix = [];
 
@@ -28,9 +28,9 @@ class Msc{
 
 }
 
-static contraint(){
+static constraint(){
 
-  return "Supports characters are all english alphabets,numbers and special characters...";
+  return ["Supports characters are all english alphabets,numbers and special characters."];
 }
 
  makeKey(len, key) {
